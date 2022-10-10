@@ -28,27 +28,27 @@ enum ButtonPosition { TRAILING, LEADING, CENTER }
 enum FontWeight { NORMAL, BOLD, ITALIC, BOLD_ITALIC }
 
 enum SystemWindowPrefMode { DEFAULT, OVERLAY, BUBBLE }
-
+@pragma('vm:entry-point')
 class SystemAlertWindow {
   static const MethodChannel _channel = const MethodChannel(Constants.CHANNEL, JSONMethodCodec());
-
+  @pragma('vm:entry-point')
   static Future<String?> get platformVersion async {
     final String? version = await _channel.invokeMethod('getPlatformVersion');
     return version;
   }
-
+  @pragma('vm:entry-point')
   static Future<String?> get getLogFile async {
     return await _channel.invokeMethod('getLogFile');
   }
-
+  @pragma('vm:entry-point')
   static Future<void> enableLogs(bool flag) async {
     await _channel.invokeMethod('enableLogs', [flag]);
   }
-
+  @pragma('vm:entry-point')
   static Future<bool?> checkPermissions({SystemWindowPrefMode prefMode = SystemWindowPrefMode.DEFAULT}) async {
     return await _channel.invokeMethod('checkPermissions', [Commons.getSystemWindowPrefMode(prefMode)]);
   }
-
+  @pragma('vm:entry-point')
   static Future<bool?> requestPermissions({SystemWindowPrefMode prefMode = SystemWindowPrefMode.DEFAULT}) async {
     return await _channel.invokeMethod('requestPermissions', [Commons.getSystemWindowPrefMode(prefMode)]);
   }
@@ -75,7 +75,7 @@ class SystemAlertWindow {
     await _channel.invokeMethod("registerCallBackHandler", <dynamic>[callBackDispatcher!.toRawHandle(), callBack!.toRawHandle()]);
     return true;
   }
-
+  @pragma('vm:entry-point')
   static Future<bool?> showSystemWindow(
       {required SystemWindowHeader header,
       SystemWindowBody? body,
@@ -98,7 +98,7 @@ class SystemAlertWindow {
     };
     return await _channel.invokeMethod('showSystemWindow', [notificationTitle, notificationBody, params, Commons.getSystemWindowPrefMode(prefMode)]);
   }
-
+  @pragma('vm:entry-point')
   static Future<bool?> updateSystemWindow(
       {required SystemWindowHeader header,
       SystemWindowBody? body,
@@ -122,12 +122,12 @@ class SystemAlertWindow {
     return await _channel
         .invokeMethod('updateSystemWindow', [notificationTitle, notificationBody, params, Commons.getSystemWindowPrefMode(prefMode)]);
   }
-
+  @pragma('vm:entry-point')
   static Future<bool?> closeSystemWindow({SystemWindowPrefMode prefMode = SystemWindowPrefMode.DEFAULT}) async {
     return await _channel.invokeMethod('closeSystemWindow', [Commons.getSystemWindowPrefMode(prefMode)]);
   }
 }
-
+@pragma('vm:entry-point')
 void callbackDispatcher() {
   // 1. Initialize MethodChannel used to communicate with the platform portion of the plugin
   const MethodChannel _backgroundChannel = const MethodChannel(Constants.BACKGROUND_CHANNEL, JSONMethodCodec());
@@ -135,6 +135,7 @@ void callbackDispatcher() {
   WidgetsFlutterBinding.ensureInitialized();
 
   // 3. Listen for background events from the platform portion of the plugin.
+
   _backgroundChannel.setMethodCallHandler((MethodCall call) async {
     final args = call.arguments;
     // 3.1. Retrieve callback instance for handle.
