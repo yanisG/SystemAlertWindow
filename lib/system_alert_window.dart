@@ -52,7 +52,7 @@ class SystemAlertWindow {
   static Future<bool?> requestPermissions({SystemWindowPrefMode prefMode = SystemWindowPrefMode.DEFAULT}) async {
     return await _channel.invokeMethod('requestPermissions', [Commons.getSystemWindowPrefMode(prefMode)]);
   }
-
+  @pragma('vm:entry-point')
   static Future<bool> registerOnClickListener(Function callBackFunction) async {
     final callBackDispatcher = PluginUtilities.getCallbackHandle(callbackDispatcher);
     final callBack = PluginUtilities.getCallbackHandle(callBackFunction);
